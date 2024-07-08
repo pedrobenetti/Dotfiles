@@ -1,0 +1,64 @@
+# List files
+#alias ll="exa --icons -lahs=extension"
+#alias ls="exa --icons -1 -s=extension"
+#alias lss="exa --icons -s=extension"
+alias cat="bat --style=auto"
+alias ll="exa -lahs=extension"
+alias ls="exa -1 -s=extension"
+alias lss="exa -s=extension"
+
+# Tmuxp
+alias SPTerm="tmuxp load SPTerm"
+alias Coding="tmuxp load Coding"
+alias DataBase="tmuxp load DataBase"
+
+# Safe rm
+alias rm="rm -i"
+alias rmd="rm -rfI"
+
+# Remap caps lock
+#alias esc="setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape' &"
+alias escc="'xcape -e 'Caps_Lock=Escape' &"
+
+# Firewall
+alias ufw="sudo ufw"
+
+# Change theme 
+alias theme='bash -c "$(wget -qO- https://git.io/vQgMr)"'
+
+# Configs
+alias zconf="nvim $XDG_CONFIG_HOME/zsh/.zshrc"
+alias conf="nvim $XDG_CONFIG_HOME/i3/config"
+#alias conf="nvim $XDG_CONFIG_HOME/sway/config"
+alias kconf="nvim $XDG_CONFIG_HOME/kitty/kitty.conf"
+alias nconf="cd $XDG_CONFIG_HOME/nvim && nvim "
+alias aconf="nvim $XDG_CONFIG_HOME/zsh/aliases"
+alias vconf="vim $HOME/.vimrc"
+
+# Clean terminal screen 
+alias cs="print '\033c'"
+
+# Make files
+alias mk="make clean && make && ./Main"
+
+# Weather info
+alias weather="curl https://wttr.in/"
+
+# Pacman 
+alias s="pacman -Ss"
+alias S="sudo pacman -S"
+
+# Source aliases
+alias rs="source $XDG_CONFIG_HOME/zsh/aliases"
+
+# YouTube Fuzzy Finder
+alias youtube="ytfzf -l -I L --pages=5 -t "
+alias download="yt-dlp -f 'b' -o '%(title)s.%(ext)s' "
+alias audio="yt-dlp -f 'ba' -x --audio-format mp3 -o '%(playlist_index+0)02d - %(title)s.%(ext)s' "
+alias music="yt-dlp -f 'ba' -x --audio-format mp3 -o '%(title)s.%(ext)s' "
+alias play="ncmpcpp"
+alias up="mpc update"
+
+alias mpd="systemctl --user start mpd.service"
+
+
