@@ -1,0 +1,13 @@
+session_name: Coding
+start_directory: $HOME/Projects
+
+windows: 
+  - window_name: Neovim
+    layout: tiled
+    panes: 
+      -
+
+  - window_name: Run
+    layout: tiled
+    panes:
+      -

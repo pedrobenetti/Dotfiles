@@ -1,0 +1,9 @@
+session_name: SPTerm
+
+windows: 
+  - window_name: ZSH
+    panes: 
+      - 
+  - window_name: Prompt
+    panes: 
+      - 
