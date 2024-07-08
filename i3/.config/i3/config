@@ -1,0 +1,400 @@
+# ===================
+#  Default Variables
+# ===================
+
+set $mod Mod4
+set $exec exec --no-startup-id
+set $exec_always exec_always --no-startup-id
+
+
+# ==============
+#  Startup Apps
+# ==============
+
+exec --no-startup-id nm-applet
+exec --no-startup-id udiskie &
+exec --no-startup-id unclutter &
+exec --no-startup-id "setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape' &"
+exec --no-startup-id "setxkbmap -model abnt2 -layout br -variant abnt2"
+exec --no-startup-id "xrdb -merge ~/.Xresources"
+#exec --no-startup-id urxvtd -o -q -f
+
+# ==========
+#  Terminal
+# ==========
+
+bindsym $mod+Return $exec xterm
+
+
+# =======
+#  Fonts 
+# =======
+font pango: FiraCode Nerd Font Mono 0
+#font pango: DejaVuSansM Nerd Font 10
+
+
+# ==============
+#  Startup Apps
+# ==============
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id dunst
+
+
+
+# ================================
+#  Volume and Brightness Settings
+# ================================
+
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume $exec pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume $exec pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute $exec pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute $exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym $mod+F1 $exec playerctl play-pause
+
+bindsym XF86MonBrightnessUp $exec "xbacklight -inc 2"
+bindsym XF86MonBrightnessDown $exec "xbacklight -dec 2"
+
+# ==============
+#  Binding Keys
+# ==============
+
+# start dmenu 
+bindsym $mod+d $exec "dmenu_run -fn 'FiraCode Nerd Font Mono-13' -p 'Launch:' -l 15"
+
+# Autotype passwords
+bindsym $mod+f $exec "passmenu --type"
+
+# Floating Modifier 
+floating_modifier $mod
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# Change focus - VIM Keys
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Change focus - Arrow Keys
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window - VIM Keys
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Move focused window - Arrow Keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# split in horizontal orientation
+bindsym $mod+p split toggle
+
+# Fullscreen mode for the focused container
+bindsym $mod+F11 fullscreen toggle
+
+# change container layout (tabbed, toggle split)
+bindsym $mod+i layout toggle tabbed split
+bindsym $mod+o layout toggle split
+
+# focus the parent container
+bindsym $mod+u focus parent 
+
+# focus the child container
+bindsym $mod+y focus child
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# Resize window 
+bindsym $mod+CTRL+h resize shrink width 10 px or 10 ppt
+bindsym $mod+CTRL+j resize grow height 10 px or 10 ppt
+bindsym $mod+CTRL+k resize shrink height 10 px or 10 ppt
+bindsym $mod+CTRL+l resize grow width 10 px or 10 ppt
+
+# CAPS to ESC
+bindsym $mod+z $exec "setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape'&"
+
+# Screenshots
+bindsym  $mod+s $exec "maim -s | tee  $SCREENSHOTS/$(date +%F_%H%M%S_%N).png | xclip -selection clipboard -t image/png", mode default
+
+
+
+# =============
+#  Scratchpads
+# =============
+
+exec --no-startup-id xterm -name htop_scratchpad -e htop
+exec --no-startup-id xterm -name lf_scratchpad -e lf
+exec --no-startup-id xterm -name audio_scratchpad -e pulsemixer
+exec --no-startup-id xterm -name calcurse_scratchpad -e calcurse
+exec --no-startup-id xterm -name urxvt_scratchpad
+
+
+# Htop
+for_window [instance="htop_scratchpad"] move to scratchpad , border pixel 5
+for_window [instance="htop_scratchpad"] move absolute position center
+for_window [instance="htop_scratchpad"] resize set 1280 720
+bindsym $mod+q [instance="htop_scratchpad"] scratchpad show
+
+# Ranger
+for_window [instance="lf_scratchpad"] move to scratchpad , border pixel 5
+for_window [instance="lf_scratchpad"] move absolute position center
+for_window [instance="lf_scratchpad"] resize set 1280 720
+bindsym $mod+w [instance="lf_scratchpad"] scratchpad show
+
+# Audio
+for_window [instance="audio_scratchpad"] move to scratchpad , border pixel 5
+for_window [instance="audio_scratchpad"] move absolute position center
+for_window [instance="audio_scratchpad"] resize set 1280 720
+bindsym $mod+e [instance="audio_scratchpad"] scratchpad show
+
+# Calcurse
+for_window [instance="calcurse_scratchpad"] move to scratchpad , border pixel 5
+for_window [instance="calcurse_scratchpad"] move absolute position center
+for_window [instance="calcurse_scratchpad"] resize set 1280 720
+bindsym $mod+r [instance="calcurse_scratchpad"] scratchpad show
+
+# Terminal
+for_window [instance="urxvt_scratchpad"] move to scratchpad , border pixel 5
+for_window [instance="urxvt_scratchpad"] move absolute position center
+for_window [instance="urxvt_scratchpad"] resize set 1280 720
+for_window [instance="urxvt_scratchpad"] resize set 1280 720
+bindsym $mod+t [instance="urxvt_scratchpad"] scratchpad show
+
+# =================
+#  Scratchpad mode
+# =================
+
+bindsym $mod+b mode "$scratchpad"
+
+set $scratchpad [1] Sys Info   [2] Files   [3] Audio   [4] Calendar   [5] Terminal
+
+mode "$scratchpad" {
+    bindsym 1 exec --no-startup-id xterm -name htop_scratchpad -e htop, mode default
+    bindsym 2 exec --no-startup-id xterm -name lf_scratchpad -e lf, mode default
+    bindsym 3 exec --no-startup-id xterm -name audio_scratchpad -e pulsemixer, mode default
+    bindsym 4 exec --no-startup-id xterm -name calcurse_scratchpad -e calcurse, mode default
+
+    bindsym 5 exec --no-startup-id xterm -name urxvt_scratchpad, mode default
+
+
+    bindsym Escape mode default
+    bindsym Return mode default
+}
+
+
+
+# =============
+#  Mode System
+# =============
+
+bindsym $mod+BackSpace mode "$mode_system"
+
+set $mode_system [1] Lock | [2] Logout | [3] Suspend | [4] Hibernate | [5] Reboot | [0] Shutdown
+mode "$mode_system" {
+    bindsym 1 $exec $i3lockwall, mode "default"
+    bindsym 2 $exec i3-msg exit, mode "default"
+    bindsym 3 $exec $i3lockwall && systemctl suspend, mode "default"
+    bindsym 4 $exec $i3lockwall && systemctl hibernate, mode "default"
+    bindsym 5 $exec systemctl reboot, mode "default"
+    bindsym 0 $exec systemctl poweroff -i, mode "default"
+
+    bindsym Escape mode default
+}
+
+
+
+# ==============
+#  Display mode
+# ==============
+
+bindsym $mod+m mode "$display"
+
+set $display [1] Single Monitor [2] Dual Monitor
+mode "$display" {
+    bindsym 1 $exec sh "$HOME/.screenlayout/SingleMonitor.sh", mode "default" 
+    bindsym 2 $exec sh "$HOME/.screenlayout/DualMonitor.sh", mode "default" 
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+
+# =========
+#  Compton 
+# =========
+
+bindsym $mod+c mode "$compositor"
+
+set $compositor Compositor - [1] Turn on [2] Turn off
+mode "$compositor"{
+    bindsym 1 $exec "picom&" reload, mode default
+    bindsym --release 2 $exec "killall picom", mode default
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+
+# ======
+#  Gaps
+# ======
+
+#bindsym $mod+g mode "$gaps"
+#
+#set $gaps Gaps + | - | [1] 5px | [2] Off
+#mode "$gaps"{
+#    bindsym plus  gaps inner all plus  2
+#    bindsym minus gaps inner all minus 2
+#    bindsym 1 gaps inner all 5 
+#    bindsym 2 gaps inner all 0 
+#
+#    bindsym Return mode "default"
+#    bindsym Escape mode "default"
+#
+#}
+#
+#smart_borders on
+#smart_gaps on
+
+# ============
+#  Title Bars
+# ============
+
+# Center title text
+#title_align center
+
+# Display and format icons in title bars
+#for_window [all] title_window_icon yes
+#for_window [all] title_window_icon padding 10px
+#for_window [class=".*"] title_format "<b>%class</b>"
+
+
+# ========================
+#  Workspaces and Windows
+# ========================
+
+workspace_auto_back_and_forth yes
+focus_follows_mouse no 
+
+default_border pixel 4
+default_floating_border pixel 4
+hide_edge_borders smart
+
+floating_minimum_size 75 x 50
+#floating_maximum_size 1280 x 720
+
+# Floating pop up automatically
+for_window [window_role="pop_up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+for_window [class="Arandr"] floating enable
+for_window [class="Arandr"] move absolute position center
+
+for_window [class="feh"] floating enable, padding 200px 350px 
+for_window [class="feh"] move absolute position center
+
+for_window [class="Blueman-manager"] floating enable, padding 150px 650px
+for_window [class="Blueman-manager"] move absolute position center
+
+for_window [class="Pavucontrol"] floating enable, padding 150px 650px
+for_window [class="Pavucontrol"] move absolute position center
+
+# Workspace labels
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Switch to workspace
+bindsym Mod1+1 workspace $ws1
+bindsym Mod1+2 workspace $ws2
+bindsym Mod1+3 workspace $ws3
+bindsym Mod1+4 workspace $ws4
+bindsym Mod1+5 workspace $ws5
+bindsym Mod1+6 workspace $ws6
+bindsym Mod1+7 workspace $ws7
+bindsym Mod1+8 workspace $ws8
+bindsym Mod1+9 workspace $ws9
+bindsym Mod1+0 workspace $ws10
+
+# Move focused container to workspace
+bindsym Mod1+Shift+1 move container to workspace $ws1
+bindsym Mod1+Shift+2 move container to workspace $ws2
+bindsym Mod1+Shift+3 move container to workspace $ws3
+bindsym Mod1+Shift+4 move container to workspace $ws4
+bindsym Mod1+Shift+5 move container to workspace $ws5
+bindsym Mod1+Shift+6 move container to workspace $ws6
+bindsym Mod1+Shift+7 move container to workspace $ws7
+bindsym Mod1+Shift+8 move container to workspace $ws8
+bindsym Mod1+Shift+9 move container to workspace $ws9
+bindsym Mod1+Shift+0 move container to workspace $ws10
+
+# Open in specific workspace
+assign [class="qutebrowser"      instance="qutebrowser"]       $ws2
+assign [class="Pcmanfm"          instance="pcmanfm"]           $ws3
+assign [class="Nemo"             instance="nemo"]              $ws3
+assign [class="DBeaver"          instance="DBeaver"]           $ws3
+assign [class="Mailspring"       instance="mailspring"]        $ws4
+assign [class="Gimp"             instance="gimp"]              $ws4
+assign [class="Postman"          instance="postman"]           $ws4
+assign [class="TelegramDesktop"  instance="telegram-desktop"]  $ws5
+assign [class="discord"          instance="discord"]           $ws5
+assign [class="Spotify"          instance="spotify"]           $ws6
+assign [class="LibreWolf"        instance="Navigator"]         $ws6
+assign [class="steam"            instance="steamwebhelper"]    $ws7
+#assign [class="firefox"          instance="Navigator"]         $ws10
+
+assign [class="libreoffice-startcenter"       instance="libreoffice"]        $ws4
+assign [class="OpenOffice 4.1.15"             instance="VCLSalFrame.DocumentWindow"] $ws4
+
+
+# ============
+#  APPEARANCE 
+# ============
+
+# Wallpaper 
+exec_always --no-startup-id feh --bg-fill /home/mestrinari/Pictures/WindowsXP.jpg
+
+bar {
+    i3bar_command i3bar
+    status_command i3status --config ~/.config/i3/i3status.conf
+    font pango: FiraCode Nerd Font Mono 11
+    separator_symbol "  "
+
+    position bottom
+    height 25
+    tray_output primary
+    tray_padding 6px
+
+    #mode hide
+    #hidden_state hide
+    #modifier Mod4
+}
