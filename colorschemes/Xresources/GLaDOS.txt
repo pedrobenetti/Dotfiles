@@ -1,0 +1,40 @@
+! ====================
+!  Theme - GLaDOS
+! ====================
+! special
+
+*foreground:       #ffffff
+*background:       #03060e
+URxvt*background:   [90]#03060e
+
+! Black + DarkGrey
+*color0:  #030710
+*color8:  #83939a
+
+! DarkRed + Red 
+*color1:  #4C7693
+*color9:  #4C7693
+
+! DarkGreen + Green
+*color2:  #667A8E
+*color10: #667A8E
+
+! DarkYellow + Yellow
+*color3:  #628EA8
+*color11: #628EA8
+
+! DarkBlue + Blue
+*color4:  #6F96AE
+*color12: #6F96AE
+
+! DarkMagenta + Magenta
+*color5:  #7DACC2
+*color13: #7DACC2
+
+! DarkCyan + Cyan
+*color6:  #89A2B4
+*color14: #89A2B4
+
+! LightGrey + Grey
+*color7:  #bcd2dc
+*color15: #bcd2dc
