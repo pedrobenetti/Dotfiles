@@ -29,8 +29,8 @@ bindsym $mod+Return $exec xterm
 # =======
 #  Fonts 
 # =======
-font pango: FiraCode Nerd Font Mono 0
-#font pango: DejaVuSansM Nerd Font 10
+#font pango: FiraCode Nerd Font Mono 0
+font pango: DejaVuSansM Nerd Font 0
 
 
 # ==============
@@ -381,12 +381,13 @@ assign [class="OpenOffice 4.1.15"             instance="VCLSalFrame.DocumentWind
 # ============
 
 # Wallpaper 
-exec_always --no-startup-id feh --bg-fill /home/mestrinari/Pictures/WindowsXP.jpg
+exec_always --no-startup-id feh --bg-fill /home/mestrinari/.config/i3/images/WindowsXP.jpg
 
 bar {
     i3bar_command i3bar
     status_command i3status --config ~/.config/i3/i3status.conf
-    font pango: FiraCode Nerd Font Mono 11
+    #font pango: FiraCode Nerd Font Mono 11
+    font pango: DejaVu Sans Mono 11
     separator_symbol "  "
 
     position bottom
