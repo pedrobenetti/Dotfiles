@@ -9,7 +9,7 @@ export PATH=$PATH:/usr/bin/pyhton3
 export PATH=$PATH:/home/pedro/.local/bin
 export PATH=$PATH:~/.local/bin/pip3:~/.local/bin/pip3.10
 export PATH=$PATH:~/.asdf/installs/python/3.10.9/bin
-export PATH=$PATH:~/.asdf/installs/rust/1.72.0/bin
+export PATH=$PATH:~/.asdf/installs/rust/1.79.0/bin
 export PATH=$PATH:/home/mestrinari/.local/bin
 export PATH=$PATH:~/.fzf/bin
 export PATH=$PATH:~/LSP/jdtls/bin
@@ -25,7 +25,7 @@ export PATH=$PATH:/opt/mssql-tools18/bin
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # Terminal
-export TERM="rxvt-unicode-256color"
+#export TERM="rxvt-unicode-256color"
 
 ##Sources
 source "$XDG_CONFIG_HOME/zsh/aliases"
