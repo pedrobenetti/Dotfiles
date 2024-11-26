@@ -1,21 +1,14 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#fi
-
-export PATH=$PATH:/usr/bin/pyhton3
 export PATH=$PATH:/home/pedro/.local/bin
-export PATH=$PATH:~/.local/bin/pip3:~/.local/bin/pip3.10
-export PATH=$PATH:~/.asdf/installs/python/3.10.9/bin
-export PATH=$PATH:~/.asdf/installs/rust/1.79.0/bin
 export PATH=$PATH:/home/mestrinari/.local/bin
+export PATH=$PATH:~/.asdf/shims/python3
+export PATH=$PATH:~/.local/bin/pip3:~/.local/bin/pip3.10
+export PATH=$PATH:~/.asdf/installs/python/3.12.4/bin
+export PATH=$PATH:~/.asdf/installs/python/3.12.4/lib/python3.12/site-packages
+export PATH=$PATH:~/.asdf/installs/rust/1.79.0/bin
 export PATH=$PATH:~/.fzf/bin
 export PATH=$PATH:~/LSP/jdtls/bin
 export PATH=$PATH:~/LSP/lua_ls/bin
 export PATH=$PATH:~/.config/composer/vendor/bin
-
 
 export QT_QPA_PLATFORMTHEME=qt5ct
 
@@ -99,9 +92,3 @@ if [ $(command -v "fzf") ]; then
     source /usr/share/fzf/completion.zsh
     source /usr/share/fzf/key-bindings.zsh
 fi
-
-
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-
-#eval "$(starship init zsh)"

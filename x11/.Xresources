@@ -102,7 +102,9 @@ URxvt.keysym.C-question:  resize-font:show
 XTerm.termName: xterm-256color
 
 !Font and theme config
-XTerm.vt100.font: xft:DejaVu Sans Mono: size=13
+!XTerm.vt100.font: xft:DejaVu Sans Mono: size=13
+XTerm.vt100.font: xft:DejaVu Sans Nerd Font Propo: size=13
+Xterm.vt100.letterspace: 1
 XTerm.vt100.foreground:       #8ef992
 XTerm.vt100.background:       #000000
 XTerm.vt100.cursorColor:      #ef8802

@@ -36,5 +36,8 @@ export DOWNLOADS=$HOME/Downloads
 # For screenshots
 export SCREENSHOTS=$HOME/Pictures/.Screenshots
 
+# For projects
+export PROJECTS=$HOME/Desktop/Projects
+
 # .NET Env
 export DOTNET_ROOT=/sbin/dotnet

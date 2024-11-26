@@ -2,7 +2,7 @@ session_name: DataBase
 start_directory: $HOME/Projects
 
 windows: 
-  - window_name: SqLite
+  - window_name: PgCli
     layout: tiled
     panes: 
       -
