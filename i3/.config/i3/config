@@ -11,35 +11,34 @@ set $exec_always exec_always --no-startup-id
 #  Startup Apps
 # ==============
 
+exec --no-startup-id "setxkbmap -model abnt2 -layout br -variant abnt2"
+exec --no-startup-id "setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape' &"
+exec --no-startup-id "xrdb -merge ~/.Xresources"
 exec --no-startup-id nm-applet
+exec --no-startup-id clipcatd
+exec --no-startup-id blueman-applet
+exec --no-startup-id flameshot
 exec --no-startup-id udiskie &
 exec --no-startup-id unclutter &
-exec --no-startup-id "setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape' &"
-exec --no-startup-id "setxkbmap -model abnt2 -layout br -variant abnt2"
-exec --no-startup-id "xrdb -merge ~/.Xresources"
+exec --no-startup-id picom &
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id dunst
 #exec --no-startup-id urxvtd -o -q -f
+
 
 # ==========
 #  Terminal
 # ==========
 
-bindsym $mod+Return $exec xterm
+bindsym $mod+Return $exec kitty
 
 
 # =======
 #  Fonts 
 # =======
 #font pango: FiraCode Nerd Font Mono 0
-font pango: DejaVuSansM Nerd Font 0
-
-
-# ==============
-#  Startup Apps
-# ==============
-exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-exec --no-startup-id dunst
-
+font pango: DejaVuSansM Nerd Font 8
 
 
 # ================================
@@ -56,12 +55,15 @@ bindsym $mod+F1 $exec playerctl play-pause
 bindsym XF86MonBrightnessUp $exec "xbacklight -inc 2"
 bindsym XF86MonBrightnessDown $exec "xbacklight -dec 2"
 
+
 # ==============
 #  Binding Keys
 # ==============
 
 # start dmenu 
-bindsym $mod+d $exec "dmenu_run -fn 'FiraCode Nerd Font Mono-13' -p 'Launch:' -l 15"
+bindsym $mod+d $exec "dmenu_run "
+#bindsym $mod+d $exec "dmenu_run -F -i "
+#bindsym $mod+d $exec "dmenu_run -fn 'FiraCode Nerd Font Mono-13' -p 'Launch:' -l 15"
 
 # Autotype passwords
 bindsym $mod+f $exec "passmenu --type"
@@ -134,8 +136,14 @@ bindsym $mod+CTRL+l resize grow width 10 px or 10 ppt
 bindsym $mod+z $exec "setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape'&"
 
 # Screenshots
-bindsym  $mod+s $exec "maim -s | tee  $SCREENSHOTS/$(date +%F_%H%M%S_%N).png | xclip -selection clipboard -t image/png", mode default
+#bindsym  $mod+s $exec "maim -s | tee  $SCREENSHOTS/$(date +%F_%H%M%S_%N).png | xclip -selection clipboard -t image/png", mode default
+bindsym $mod+s $exec "flameshot gui"
 
+# Quickswitch i3 - por alguma razão nao ta funcionando, infelizmente
+#bindsym $mod+n $exec "quickswitch -d dmenu -C XTerm"
+
+# Clipcat - clipboard manager
+bindsym $mod+x $exec "clipcat-menu"
 
 
 # =============
@@ -156,6 +164,7 @@ for_window [instance="htop_scratchpad"] resize set 1280 720
 bindsym $mod+q [instance="htop_scratchpad"] scratchpad show
 
 # Ranger
+
 for_window [instance="lf_scratchpad"] move to scratchpad , border pixel 5
 for_window [instance="lf_scratchpad"] move absolute position center
 for_window [instance="lf_scratchpad"] resize set 1280 720
@@ -193,14 +202,12 @@ mode "$scratchpad" {
     bindsym 2 exec --no-startup-id xterm -name lf_scratchpad -e lf, mode default
     bindsym 3 exec --no-startup-id xterm -name audio_scratchpad -e pulsemixer, mode default
     bindsym 4 exec --no-startup-id xterm -name calcurse_scratchpad -e calcurse, mode default
-
     bindsym 5 exec --no-startup-id xterm -name urxvt_scratchpad, mode default
 
 
     bindsym Escape mode default
     bindsym Return mode default
 }
-
 
 
 # =============
@@ -221,6 +228,7 @@ mode "$mode_system" {
     bindsym Escape mode default
 }
 
+#bindsym $mod+BackSpace exec sh "/home/mestrinari/Desktop/Scripts/Dmenu/powermenu"
 
 
 # ==============
@@ -261,34 +269,40 @@ mode "$compositor"{
 #  Gaps
 # ======
 
-#bindsym $mod+g mode "$gaps"
-#
-#set $gaps Gaps + | - | [1] 5px | [2] Off
-#mode "$gaps"{
-#    bindsym plus  gaps inner all plus  2
-#    bindsym minus gaps inner all minus 2
-#    bindsym 1 gaps inner all 5 
-#    bindsym 2 gaps inner all 0 
-#
-#    bindsym Return mode "default"
-#    bindsym Escape mode "default"
-#
-#}
-#
-#smart_borders on
-#smart_gaps on
+bindsym $mod+g mode "$gaps"
+
+set $gaps  Compositor - [1] Turn on [2] Turn off     Gaps + | - | [1] 5px | [2] Off
+mode "$gaps"{
+    bindsym plus  gaps inner all plus  2
+    bindsym minus gaps inner all minus 2
+    bindsym 1 gaps inner all set 8, mode "default" 
+    bindsym 2 gaps inner all set 0, mode "default" 
+
+    bindsym 1 $exec "picom&" reload, mode default
+    bindsym --release 2 $exec "killall picom", mode default
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+
+}
+
+smart_borders on
+smart_gaps on
 
 # ============
 #  Title Bars
 # ============
 
 # Center title text
-#title_align center
+title_align center
 
 # Display and format icons in title bars
-#for_window [all] title_window_icon yes
-#for_window [all] title_window_icon padding 10px
-#for_window [class=".*"] title_format "<b>%class</b>"
+for_window [all] title_window_icon yes
+for_window [all] title_window_icon padding 10
+for_window [class=".*"] title_format "<b>%class</b>"
 
 
 # ========================
@@ -296,30 +310,39 @@ mode "$compositor"{
 # ========================
 
 workspace_auto_back_and_forth yes
-focus_follows_mouse no 
+focus_follows_mouse no
 
 default_border pixel 4
 default_floating_border pixel 4
 hide_edge_borders smart
 
 floating_minimum_size 75 x 50
-#floating_maximum_size 1280 x 720
+#floating_maximum_size 1920 x 1080
+floating_maximum_size 1280 x 720
 
 # Floating pop up automatically
+popup_during_fullscreen smart
 for_window [window_role="pop_up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
 for_window [class="Arandr"] floating enable
 for_window [class="Arandr"] move absolute position center
 
-for_window [class="feh"] floating enable, padding 200px 350px 
+#for_window [class="feh"] floating enable, padding 200px 350px 
+for_window [class="feh"] floating enable, resize set 1280 720
 for_window [class="feh"] move absolute position center
 
 for_window [class="Blueman-manager"] floating enable, padding 150px 650px
 for_window [class="Blueman-manager"] move absolute position center
 
-for_window [class="Pavucontrol"] floating enable, padding 150px 650px
-for_window [class="Pavucontrol"] move absolute position center
+for_window [class="pavucontrol"] floating enable, padding 150px 650px
+for_window [class="pavucontrol"] move absolute position center
+
+for_window [class="Qalculate-gtk"] floating enable
+for_window [class="Qalculate-gtk"] move absolute position center
+
+for_window [class="Virt-manager"] floating enable
+for_window [class="Virt-manager"] move absolute position center
 
 # Workspace labels
 set $ws1 "1"
@@ -359,19 +382,20 @@ bindsym Mod1+Shift+0 move container to workspace $ws10
 
 # Open in specific workspace
 assign [class="qutebrowser"      instance="qutebrowser"]       $ws2
+assign [class="floorp"           instance="Navigator"]         $ws2
 assign [class="Pcmanfm"          instance="pcmanfm"]           $ws3
 assign [class="Nemo"             instance="nemo"]              $ws3
 assign [class="DBeaver"          instance="DBeaver"]           $ws3
 assign [class="Mailspring"       instance="mailspring"]        $ws4
 assign [class="Gimp"             instance="gimp"]              $ws4
 assign [class="Postman"          instance="postman"]           $ws4
-assign [class="TelegramDesktop"  instance="telegram-desktop"]  $ws5
-assign [class="discord"          instance="discord"]           $ws5
-assign [class="Spotify"          instance="spotify"]           $ws6
-assign [class="LibreWolf"        instance="Navigator"]         $ws6
-assign [class="steam"            instance="steamwebhelper"]    $ws7
+assign [class="krita"            instance="krita"]             $ws4
+assign [class="Spotify"          instance="spotify"]           $ws5
+assign [class="LibreWolf"        instance="Navigator"]         $ws5
+assign [class="TelegramDesktop"  instance="telegram-desktop"]  $ws6
+assign [class="discord"          instance="discord"]           $ws6
+assign [class="thunderbird"      instance="Mail"]              $ws7
 #assign [class="firefox"          instance="Navigator"]         $ws10
-
 assign [class="libreoffice-startcenter"       instance="libreoffice"]        $ws4
 assign [class="OpenOffice 4.1.15"             instance="VCLSalFrame.DocumentWindow"] $ws4
 
@@ -382,20 +406,29 @@ assign [class="OpenOffice 4.1.15"             instance="VCLSalFrame.DocumentWind
 
 # Wallpaper 
 exec_always --no-startup-id feh --bg-fill /home/mestrinari/.config/i3/images/WindowsXP.jpg
+#exec_always --no-startup-id feh --bg-fill /home/mestrinari/Imagens/feh/painel-corsa.jpg
 
 bar {
-    i3bar_command i3bar
-    status_command i3status --config ~/.config/i3/i3status.conf
-    #font pango: FiraCode Nerd Font Mono 11
-    font pango: DejaVu Sans Mono 11
-    separator_symbol "  "
+    status_command i3blocks -c /home/mestrinari/Desktop/Scripts/i3blocks/i3blocks.conf
+    #status_command i3status --config ~/.config/i3/i3status.conf 
+    font pango: FiraCode Nerd Font Mono 12
+    separator_symbol " :|: "
 
+    workspace_buttons no
+    position top
+    tray_output none
+}
+
+bar {
+    status_command i3status -c ~/.config/i3/i3status_bottom.conf
+    font pango: FiraCode Nerd Font Mono 12
+
+    height 25 
     position bottom
-    height 25
+
     tray_output primary
     tray_padding 6px
-
-    #mode hide
-    #hidden_state hide
-    #modifier Mod4
 }
+#mode hide
+#hidden_state hide
+#modifier Mod4
