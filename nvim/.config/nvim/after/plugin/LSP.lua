@@ -1,85 +1,94 @@
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-local uv = vim.uv or vim.loop
+-- LSP Config - Default {{{
+local lsp_zero = require('lsp-zero')
 
--- Auto-install lazy.nvim if not present
-if not uv.fs_stat(lazypath) then
-  print('Installing lazy.nvim....')
-  vim.fn.system({
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  })
-  print('Done.')
-end
+lsp_zero.on_attach(function(client, bufnr)
+  lsp_zero.default_keymaps({ buffer = bufnr })
+end)
+--}}}
 
-vim.opt.rtp:prepend(lazypath)
+-- Specific Languages config {{{
+--Java
+require('java').setup()
+require('lspconfig').jdtls.setup({})
 
-require('lazy').setup({
-  { -- Colorscheme
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
-  { -- Mason
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim'
-  },
-  { -- LSP Support
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
-    lazy = true,
-    config = false,
-  },
-  {
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      { 'hrsh7th/cmp-nvim-lsp' },
+--Tailwindcss
+require 'lspconfig'.tailwindcss.setup {
+  cmd = { "tailwindcss-language-server", "--stdio" },
+  filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+  root_dir = require('lspconfig.util').root_pattern("tailwind.config.js", "package.json"),
+  settings = {
+    tailwindCSS = {
+      classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
+      includeLanguages = {
+        eelixir = "html-eex",
+        eruby = "erb",
+        templ = "html"
+      },
+      lint = {
+        cssConflict = "warning",
+        invalidApply = "error",
+        invalidConfigPath = "error",
+        invalidScreen = "error",
+        invalidTailwindDirective = "error",
+        invalidVariant = "error",
+        recommendedVariantOrder = "warning"
+      },
+      validate = true
     }
-  },
-  { -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      { 'L3MON4D3/LuaSnip' },
-      { 'saadparwaiz1/cmp_luasnip' },
-      { 'rafamadriz/friendly-snippets' }
-    },
-  },
-  { -- Treesitter
-    'nvim-treesitter/nvim-treesitter',
-  },
-  { -- Telescope
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.5',
-    dependencies = { 'nvim-lua/plenary.nvim' }
-  },
-  { -- Undotree
-    "jiaoshijie/undotree",
-    dependencies = "nvim-lua/plenary.nvim",
-    config = true,
-    keys = { -- load the plugin only when using it's keybinding:
-      { "<F5>", "<cmd>lua require('undotree').toggle()<cr>" },
-    },
-  },
-  { -- Neogit
-    "NeogitOrg/neogit",
-    dependencies = {
-      "sindrets/diffview.nvim", -- optional - Diff integration
-    },
-    config = true
-  },
-  { -- Autopairs
-    'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    opts = {} -- this is equalent to setup({}) function
-  },
-  {           -- Colorizer
-    'norcalli/nvim-colorizer.lua',
-  },
-  { -- Comment
-    'numToStr/Comment.nvim'
+  }
+}
+
+--}}}
+
+-- Mason Config {{{
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = { "clangd", "lua_ls", "html", "cssls" },
+  handlers = {
+    function(server_name)
+      require('lspconfig')[server_name].setup({})
+    end,
   },
 })
+-- }}}
+
+-- CMP Config {{{
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
+local cmp_format = require('lsp-zero').cmp_format()
+
+require('luasnip.loaders.from_vscode').lazy_load()
+
+cmp.setup({
+  -- (Optional) Show source name in completion menu
+  formatting = cmp_format,
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  sources = {
+    {
+      name = 'nvim_lsp',
+      entry_filter = function(entry)
+        return require("cmp").lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+      end
+    },
+    { name = 'luasnip' },
+    { name = 'tailwindcss' },
+  },
+  preselect = 'item',
+  completion = {
+    completeopt = 'menu,menuone,noinsert'
+  },
+  mapping = cmp.mapping.preset.insert({
+    -- Select with enter
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    -- Super tab to navigate completion menu
+    ['<Tab>'] = cmp_action.luasnip_supertab(),
+    ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
+    -- Trigger completion with Ctrl + Space
+    ['<C-space>'] = cmp.mapping.complete(),
+  }),
+})
+--}}}

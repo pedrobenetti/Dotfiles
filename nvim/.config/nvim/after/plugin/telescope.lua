@@ -14,3 +14,6 @@ vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
 
 -- Find registers
 vim.keymap.set('n', '<leader>t', builtin.registers, {})
+--
+-- Disable folding in Telescope's result window.
+vim.api.nvim_create_autocmd("FileType", { pattern = "TelescopeResults", command = [[setlocal nofoldenable]] })
