@@ -12,38 +12,38 @@ require('java').setup()
 require('lspconfig').jdtls.setup({})
 
 --Tailwindcss
-require 'lspconfig'.tailwindcss.setup {
-  cmd = { "tailwindcss-language-server", "--stdio" },
-  filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-  root_dir = require('lspconfig.util').root_pattern("tailwind.config.js", "package.json"),
-  settings = {
-    tailwindCSS = {
-      classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
-      includeLanguages = {
-        eelixir = "html-eex",
-        eruby = "erb",
-        templ = "html"
-      },
-      lint = {
-        cssConflict = "warning",
-        invalidApply = "error",
-        invalidConfigPath = "error",
-        invalidScreen = "error",
-        invalidTailwindDirective = "error",
-        invalidVariant = "error",
-        recommendedVariantOrder = "warning"
-      },
-      validate = true
-    }
-  }
-}
+-- require 'lspconfig'.tailwindcss.setup {
+--   cmd = { "tailwindcss-language-server", "--stdio" },
+--   filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+--   root_dir = require('lspconfig.util').root_pattern("tailwind.config.js", "package.json"),
+--   settings = {
+--     tailwindCSS = {
+--       classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
+--       includeLanguages = {
+--         eelixir = "html-eex",
+--         eruby = "erb",
+--         templ = "html"
+--       },
+--       lint = {
+--         cssConflict = "warning",
+--         invalidApply = "error",
+--         invalidConfigPath = "error",
+--         invalidScreen = "error",
+--         invalidTailwindDirective = "error",
+--         invalidVariant = "error",
+--         recommendedVariantOrder = "warning"
+--       },
+--       validate = true
+--     }
+--   }
+-- }
 
 --}}}
 
 -- Mason Config {{{
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = { "clangd", "lua_ls", "html", "cssls" },
+  ensure_installed = { "clangd", "lua_ls", "jdsls" },
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
