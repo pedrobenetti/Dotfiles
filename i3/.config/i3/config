@@ -152,7 +152,7 @@ bindsym $mod+x $exec "clipcat-menu"
 
 exec --no-startup-id xterm -name htop_scratchpad -e htop
 exec --no-startup-id xterm -name lf_scratchpad -e lf
-exec --no-startup-id xterm -name audio_scratchpad -e pulsemixer
+exec --no-startup-id xterm -name audio_scratchpad -e alsamixer
 exec --no-startup-id xterm -name calcurse_scratchpad -e calcurse
 exec --no-startup-id xterm -name urxvt_scratchpad
 
@@ -200,7 +200,7 @@ set $scratchpad [1] Sys Info   [2] Files   [3] Audio   [4] Calendar   [5] Termin
 mode "$scratchpad" {
     bindsym 1 exec --no-startup-id xterm -name htop_scratchpad -e htop, mode default
     bindsym 2 exec --no-startup-id xterm -name lf_scratchpad -e lf, mode default
-    bindsym 3 exec --no-startup-id xterm -name audio_scratchpad -e pulsemixer, mode default
+    bindsym 3 exec --no-startup-id xterm -name audio_scratchpad -e alsamixer, mode default
     bindsym 4 exec --no-startup-id xterm -name calcurse_scratchpad -e calcurse, mode default
     bindsym 5 exec --no-startup-id xterm -name urxvt_scratchpad, mode default
 
@@ -391,7 +391,7 @@ assign [class="Gimp"             instance="gimp"]              $ws4
 assign [class="Postman"          instance="postman"]           $ws4
 assign [class="krita"            instance="krita"]             $ws4
 assign [class="Spotify"          instance="spotify"]           $ws5
-assign [class="LibreWolf"        instance="Navigator"]         $ws5
+#assign [class="LibreWolf"        instance="Navigator"]         $ws5
 assign [class="TelegramDesktop"  instance="telegram-desktop"]  $ws6
 assign [class="discord"          instance="discord"]           $ws6
 assign [class="thunderbird"      instance="Mail"]              $ws7
